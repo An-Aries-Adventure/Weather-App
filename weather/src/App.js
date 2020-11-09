@@ -44,7 +44,8 @@ return `${day} ${date} ${month} ${year}`
 
 
   return (
-    <div className="app">
+    <div className= {(typeof weather.main != "undefined") 
+    ? ((weather.main.temp > 72)? "app warm" : "app") : "app"}> 
      <main className="main">
        <div className="search-box">
          <input
@@ -56,19 +57,22 @@ return `${day} ${date} ${month} ${year}`
         onKeyPress={search}>
          </input>
        </div>
-       <div className = "location-box">
-        <div className = "location">Jacksonville</div>
-        <div className = "date">{dateBuilder(new Date())}</div>
-       </div>
-       <div className = "weather-box">
+       {(typeof weather.main != "undefined") ? (
+      <div>
+          <div className = "location-box">
+            <div className = "location">{weather.name}, {weather.sys.country}</div>
+            <div className = "date">{dateBuilder(new Date())}</div>
+          </div>
+        <div className = "weather-box">
         <div className ="temp">
-          32 degrees F
+          {Math.round(weather.main.temp)}°F
         </div>
-        <div className ="weather">
-        Sunny
+          <div className ="weather">
+            {weather.weather[0].main}
+          </div>
         </div>
-       </div>
-
+      </div>
+       ) : ('')};
      </main>
     </div>
   );
